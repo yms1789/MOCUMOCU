@@ -62,6 +62,15 @@
 		<string>NotoSansKR-Medium.otf</string>
 		<string>NotoSansKR-Regular.otf</string>
 		<string>NotoSansKR-Thin.otf</string>
+		<string>NotoSansCJKkr-Black (TTF).ttf</string>
+		<string>NotoSansCJKkr-Bold (TTF).ttf</string>
+		<string>NotoSansCJKkr-DemiLite (TTF).ttf</string>
+		<string>NotoSansCJKkr-Light (TTF).ttf</string>
+		<string>NotoSansCJKkr-Medium (TTF).ttf</string>
+		<string>NotoSansCJKkr-Regular (TTF).ttf</string>
+		<string>NotoSansCJKkr-Thin (TTF).ttf</string>
+		<string>NotoSansMonoCJKkr-B (TTF).ttf</string>
+		<string>NotoSansMonoCJKkr-R (TTF).ttf</string>
 	</array>
 </dict>
 </plist>

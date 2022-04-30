@@ -27,14 +27,28 @@ function InitScreen({navigation}: InitScreenProps) {
         </View>
         <View style={styles.startZone}>
           <Pressable
-            style={[styles.startButton, {marginBottom: '2%'}]}
+            style={({pressed}) => [
+              {
+                backgroundColor: pressed ? '#e6e6e6' : 'white',
+              },
+              styles.startButton,
+              {marginBottom: '2%'},
+            ]}
             onPress={toSignIn}>
             <Text style={[styles.startButtonText, {color: '#59a0dd'}]}>
               점주로 시작하기
             </Text>
           </Pressable>
 
-          <Pressable style={styles.startButton} onPress={toSignIn}>
+          <Pressable
+            style={({pressed}) => [
+              {
+                backgroundColor: pressed ? '#e6e6e6' : 'white',
+              },
+              styles.startButton,
+              {marginBottom: '2%'},
+            ]}
+            onPress={toSignIn}>
             <Text style={[styles.startButtonText, {color: '#e27662'}]}>
               회원으로 시작하기
             </Text>
@@ -68,16 +82,16 @@ const styles = StyleSheet.create({
   startButton: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     width: '77%',
     height: '23%',
     borderRadius: 8,
     elevation: 5,
   },
   startButtonText: {
-    fontFamily: 'NotoSansKR-Bold',
+    fontFamily: 'NotoSansCJKkr-Black (TTF)',
     height: '100%',
-    marginBottom: '2%',
+    marginBottom: '1%',
   },
 });
 export default InitScreen;

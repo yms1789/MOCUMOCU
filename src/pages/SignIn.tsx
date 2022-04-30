@@ -46,10 +46,10 @@ function SignIn({navigation}: SignInScreenProps) {
             marginTop: 30,
             resizeMode: 'stretch',
             width: 150,
-            height: 23,
+            height: 20,
             marginBottom: 20,
           }}
-          source={require('../assets/KakaoTalk_Image_2022-04-28-20-46-54.png')}
+          source={require('../assets/logo_red.png')}
         />
       </View>
       <View style={styles.inputBoxWrapper}>
@@ -203,14 +203,14 @@ const styles = StyleSheet.create({
     // backgroundColor: 'black',
     color: '#e27662',
     fontSize: 16,
-    bottom: '15%',
-    fontFamily: 'NotoSansKR-Bold',
+    bottom: '11%',
+    fontFamily: 'NotoSansCJKkr-Black (TTF)',
   },
   loginButtonText: {
     color: 'white',
     fontSize: 16,
-    bottom: '15%',
-    fontFamily: 'NotoSansKR-Bold',
+    bottom: '11%',
+    fontFamily: 'NotoSansCJKkr-Black (TTF)',
   },
   socialButtonWrapper: {
     marginTop: 20,
