@@ -23,7 +23,7 @@ export type LoggedInParamList = {
 export type RootStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
-  initScreen: undefined;
+  InitScreen: undefined;
 }; // -> 이 타입은 로그인 안 했을 때 보이는 페이지들
 
 const Tab = createBottomTabNavigator();

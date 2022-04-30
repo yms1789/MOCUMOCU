@@ -98,6 +98,12 @@ function SignIn({navigation}: SignInScreenProps) {
           disabled={!canGoNext}>
           <Text style={styles.loginButtonText}>로그인</Text>
         </Pressable>
+        <Pressable
+          onPress={onSubmit}
+          style={styles.signUpButton}
+          disabled={!canGoNext}>
+          <Text style={styles.signUpButtonText}>회원가입</Text>
+        </Pressable>
         <View style={styles.zZone}>
           <Pressable onPress={toSignUp}>
             <Text style={styles.zZoneText}>아이디 찾기</Text>
@@ -159,7 +165,7 @@ const styles = StyleSheet.create({
     // borderBottomWidth: StyleSheet.hairlineWidth,
     marginTop: 1,
     borderStyle: 'solid',
-    borderRadius: 13,
+    borderRadius: 8,
     elevation: 10,
     backgroundColor: 'white',
     paddingVertical: 8,
@@ -175,19 +181,36 @@ const styles = StyleSheet.create({
   },
   buttonZone: {
     alignItems: 'center',
+    // marginBottom: '10%',
   },
   loginButton: {
     backgroundColor: '#cbcbcb',
     paddingHorizontal: 115,
-    paddingVertical: 6,
-    borderRadius: 13,
+    height: '17%',
+    borderRadius: 8,
     marginBottom: 10,
     elevation: 10,
   },
-  loginButtonActive: {backgroundColor: '#e44e53'},
+  signUpButton: {
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 108,
+    height: '17%',
+    borderRadius: 8,
+    elevation: 10,
+  },
+  loginButtonActive: {backgroundColor: '#e27662'},
+  signUpButtonText: {
+    // backgroundColor: 'black',
+    color: '#e27662',
+    fontSize: 16,
+    bottom: '15%',
+    fontFamily: 'NotoSansKR-Bold',
+  },
   loginButtonText: {
     color: 'white',
     fontSize: 16,
+    bottom: '15%',
+    fontFamily: 'NotoSansKR-Bold',
   },
   socialButtonWrapper: {
     marginTop: 20,
@@ -200,12 +223,13 @@ const styles = StyleSheet.create({
     height: 37,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 7,
+    borderRadius: 8,
     marginHorizontal: 12,
     elevation: 5,
   },
   zZone: {
     flexDirection: 'row',
+    marginTop: '5%',
   },
   zZoneText: {
     marginLeft: 5,

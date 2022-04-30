@@ -1,8 +1,15 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {ImageBackground, Pressable, StyleSheet, Text, View} from 'react-native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../App';
 const image = require('../assets/initScreen.png');
 
-function InitScreen() {
+type InitScreenProps = NativeStackScreenProps<RootStackParamList, 'InitScreen'>;
+
+function InitScreen({navigation}: InitScreenProps) {
+  const toSignIn = useCallback(() => {
+    navigation.navigate('SignIn');
+  }, [navigation]);
   return (
     <View>
       <ImageBackground style={styles.background} source={image}>
@@ -18,13 +25,19 @@ function InitScreen() {
             <Text style={(styles.initText, {color: '#ff9d8b'})}>쿠</Text>폰
           </Text>
         </View>
-        <View>
-          <Pressable>
-            <Text>점주로 시작하기</Text>
+        <View style={styles.startZone}>
+          <Pressable
+            style={[styles.startButton, {marginBottom: '2%'}]}
+            onPress={toSignIn}>
+            <Text style={[styles.startButtonText, {color: '#59a0dd'}]}>
+              점주로 시작하기
+            </Text>
           </Pressable>
 
-          <Pressable>
-            <Text>회원으로 시작하기</Text>
+          <Pressable style={styles.startButton} onPress={toSignIn}>
+            <Text style={[styles.startButtonText, {color: '#e27662'}]}>
+              회원으로 시작하기
+            </Text>
           </Pressable>
         </View>
       </ImageBackground>
@@ -46,6 +59,25 @@ const styles = StyleSheet.create({
   textWrapper: {
     marginTop: 84,
     marginLeft: 48,
+  },
+  startZone: {
+    marginTop: '65%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  startButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    width: '77%',
+    height: '23%',
+    borderRadius: 8,
+    elevation: 5,
+  },
+  startButtonText: {
+    fontFamily: 'NotoSansKR-Bold',
+    height: '100%',
+    marginBottom: '2%',
   },
 });
 export default InitScreen;
