@@ -1,15 +1,19 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {
   Alert,
+  Modal,
   Platform,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
   View,
+  ScrollView,
+  StatusBar,
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
+import {SafeAreaView} from 'react-native-safe-area-context';
 // import DismissKeyboardView from '../components/DismissKeyboardView';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
@@ -59,8 +63,64 @@ function SignUp({navigation}: SignUpScreenProps) {
   }, [email, name, password]);
 
   const canGoNext = email && name && password;
+  const [modalVisible, setModalVisible] = useState<any>(true);
   return (
     <View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <SafeAreaView style={{paddingTop: StatusBar.currentHeight}}>
+          <View style={styles.scrollViewWrapper}>
+            <ScrollView style={styles.scrollView}>
+              <Text style={styles.privacyAgreeText}>
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                Voluptatum dolor, perferendis beatae repellendus architecto illo
+                consequuntur amet possimus ullam velit dignissimos obcaecati!
+                Officia, reiciendis? Voluptate sequi ex dolorem doloribus quas?
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                Voluptatum dolor, perferendis beatae repellendus architecto illo
+                consequuntur amet possimus ullam velit dignissimos obcaecati!
+                Officia, reiciendis? Voluptate sequi ex dolorem doloribus quas?
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                Voluptatum dolor, perferendis beatae repellendus architecto illo
+                consequuntur amet possimus ullam velit dignissimos obcaecati!
+                Officia, reiciendis? Voluptate sequi ex dolorem doloribus quas?
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                Voluptatum dolor, perferendis beatae repellendus architecto illo
+                consequuntur amet possimus ullam velit dignissimos obcaecati!
+                Officia, reiciendis? Voluptate sequi ex dolorem doloribus quas?
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                Voluptatum dolor, perferendis beatae repellendus architecto illo
+                consequuntur amet possimus ullam velit dignissimos obcaecati!
+                Officia, reiciendis? Voluptate sequi ex dolorem doloribus quas?
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                Voluptatum dolor, perferendis beatae repellendus architecto illo
+                consequuntur amet possimus ullam velit dignissimos obcaecati!
+                Officia, reiciendis? Voluptate sequi ex dolorem doloribus quas?
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                Voluptatum dolor, perferendis beatae repellendus architecto illo
+                consequuntur amet possimus ullam velit dignissimos obcaecati!
+                Officia, reiciendis? Voluptate sequi ex dolorem doloribus quas?
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                Voluptatum dolor, perferendis beatae repellendus architecto illo
+                consequuntur amet possimus ullam velit dignissimos obcaecati!
+                Officia, reiciendis? Voluptate sequi ex dolorem doloribus quas?
+              </Text>
+            </ScrollView>
+          </View>
+        </SafeAreaView>
+        <Pressable
+          style={styles.modalButton}
+          onPress={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <Text style={styles.modalButtonText}>OK</Text>
+        </Pressable>
+      </Modal>
       <View style={styles.inputWrapper}>
         <Text style={styles.label}>이메일</Text>
         <TextInput
@@ -155,6 +215,42 @@ const styles = StyleSheet.create({
   loginButtonText: {
     color: 'white',
     fontSize: 16,
+  },
+  scrollView: {
+    backgroundColor: 'white',
+    width: '100%',
+    height: '100%',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+  },
+  modalButtonWrapper: {
+    backgroundColor: 'black',
+    width: 100,
+    height: 100,
+  },
+  modalButton: {
+    backgroundColor: 'white',
+    bottom: '16%',
+    marginHorizontal: '10%',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '80%',
+    elevation: 10,
+    // position: 'relative',
+  },
+  modalButtonText: {
+    color: 'black',
+    justifyContent: 'center',
+    fontSize: 16,
+    bottom: '1%',
+    fontFamily: 'NotoSansCJKkr-Black (TTF)',
+  },
+  privacyAgreeText: {
+    marginHorizontal: 40,
+  },
+  scrollViewWrapper: {
+    //
   },
 });
 

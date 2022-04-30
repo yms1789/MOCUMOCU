@@ -8,13 +8,15 @@ import {
   Alert,
   StyleSheet,
   Image,
-  TouchableHighlight,
 } from 'react-native';
 import {RootStackParamList} from '../../App';
 
-type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
+type SignInOwnerScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'SignInOwner'
+>;
 
-function SignIn({navigation}: SignInScreenProps) {
+function SignInOwner({navigation}: SignInOwnerScreenProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const canGoNext = email && password;
@@ -50,7 +52,7 @@ function SignIn({navigation}: SignInScreenProps) {
             height: 20,
             marginBottom: 20,
           }}
-          source={require('../assets/logo_red.png')}
+          source={require('../assets/logo_blue.png')}
         />
       </View>
       <View style={styles.inputBoxWrapper}>
@@ -97,24 +99,11 @@ function SignIn({navigation}: SignInScreenProps) {
               : StyleSheet.compose(styles.loginButton, styles.loginButtonActive)
           }
           disabled={!canGoNext}>
-          <Text
-            style={
-              !canGoNext
-                ? styles.loginButtonText
-                : StyleSheet.compose(
-                    styles.loginButtonText,
-                    styles.loginButtonTextActive,
-                  )
-            }>
-            로그인
-          </Text>
+          <Text style={styles.loginButtonText}>로그인</Text>
         </Pressable>
-        <TouchableHighlight
-          underlayColor={'#e6e6e6'}
-          onPress={toSignUp}
-          style={styles.signUpButton}>
+        <Pressable onPress={toSignUp} style={styles.signUpButton}>
           <Text style={styles.signUpButtonText}>회원가입</Text>
-        </TouchableHighlight>
+        </Pressable>
         <View style={styles.zZone}>
           <Pressable onPress={toSignUp}>
             <Text style={styles.zZoneText}>아이디 찾기</Text>
@@ -195,7 +184,7 @@ const styles = StyleSheet.create({
     // marginBottom: '10%',
   },
   loginButton: {
-    backgroundColor: '#e6e6e6',
+    backgroundColor: '#cbcbcb',
     paddingHorizontal: 115,
     height: '17%',
     borderRadius: 8,
@@ -209,20 +198,19 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     elevation: 10,
   },
-  loginButtonActive: {backgroundColor: '#e27662'},
+  loginButtonActive: {backgroundColor: '#59A0DD'},
+  signUpButtonText: {
+    // backgroundColor: 'black',
+    color: '#59A0DD',
+    fontSize: 16,
+    bottom: '15%',
+    fontFamily: 'NotoSansCJKkr-Bold (TTF)',
+  },
   loginButtonText: {
     color: 'white',
     fontSize: 16,
-    bottom: '11%',
-    fontFamily: 'NotoSansCJKkr-Black (TTF)',
-  },
-  loginButtonTextActive: {color: '#ffffff'},
-  signUpButtonText: {
-    // backgroundColor: 'black',
-    color: '#e27662',
-    fontSize: 16,
-    bottom: '11%',
-    fontFamily: 'NotoSansCJKkr-Black (TTF)',
+    bottom: '15%',
+    fontFamily: 'NotoSansCJKkr-Bold (TTF)',
   },
   socialButtonWrapper: {
     marginTop: 20,
@@ -248,4 +236,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignIn;
+export default SignInOwner;

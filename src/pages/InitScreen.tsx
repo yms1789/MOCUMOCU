@@ -7,8 +7,11 @@ const image = require('../assets/initScreen.png');
 type InitScreenProps = NativeStackScreenProps<RootStackParamList, 'InitScreen'>;
 
 function InitScreen({navigation}: InitScreenProps) {
-  const toSignIn = useCallback(() => {
+  const toSignInUser = useCallback(() => {
     navigation.navigate('SignIn');
+  }, [navigation]);
+  const toSignInOwner = useCallback(() => {
+    navigation.navigate('SignInOwner');
   }, [navigation]);
   return (
     <View>
@@ -34,7 +37,7 @@ function InitScreen({navigation}: InitScreenProps) {
               styles.startButton,
               {marginBottom: '2%'},
             ]}
-            onPress={toSignIn}>
+            onPress={toSignInOwner}>
             <Text style={[styles.startButtonText, {color: '#59a0dd'}]}>
               점주로 시작하기
             </Text>
@@ -48,7 +51,7 @@ function InitScreen({navigation}: InitScreenProps) {
               styles.startButton,
               {marginBottom: '2%'},
             ]}
-            onPress={toSignIn}>
+            onPress={toSignInUser}>
             <Text style={[styles.startButtonText, {color: '#e27662'}]}>
               회원으로 시작하기
             </Text>

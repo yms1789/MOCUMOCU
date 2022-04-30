@@ -7,6 +7,7 @@ import Orders from './src/pages/Orders';
 import Delivery from './src/pages/Delivery';
 import {useState} from 'react';
 import SignIn from './src/pages/SignIn';
+import SignInOwner from './src/pages/SignInOwner';
 import SignUp from './src/pages/SignUp';
 import InitScreen from './src/pages/InitScreen';
 
@@ -22,6 +23,7 @@ export type LoggedInParamList = {
 //export -> 다른 파일에서 import 가능 => 타입도 다른 파일로 export, import 가능
 export type RootStackParamList = {
   SignIn: undefined;
+  SignInOwner: undefined;
   SignUp: undefined;
   InitScreen: undefined;
 }; // -> 이 타입은 로그인 안 했을 때 보이는 페이지들
@@ -63,6 +65,11 @@ function App() {
           <Stack.Screen
             name="SignIn"
             component={SignIn}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="SignInOwner"
+            component={SignInOwner}
             options={{headerShown: false}}
           />
           <Stack.Screen
