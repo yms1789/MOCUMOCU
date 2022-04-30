@@ -33,7 +33,7 @@ function InitScreen() {
 }
 
 const styles = StyleSheet.create({
-  background: {resizeMode: 'stretch', width: 360, height: 640},
+  background: {resizeMode: 'stretch', width: '100%', height: '100%'},
   initText: {
     // backgroundColor: 'black',
     // backgroundColor: 'trasparent',
