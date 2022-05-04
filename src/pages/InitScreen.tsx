@@ -94,7 +94,8 @@ const styles = StyleSheet.create({
   startButtonText: {
     fontFamily: 'NotoSansCJKkr-Black (TTF)',
     height: '100%',
-    marginBottom: '1%',
+    textAlignVertical: 'center',
+    // marginBottom: '1%',
   },
 });
 export default InitScreen;

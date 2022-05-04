@@ -9,18 +9,29 @@ import {
   StyleSheet,
   Image,
   TouchableHighlight,
+  ActivityIndicator,
 } from 'react-native';
 import {RootStackParamList} from '../../App';
-
+import DismissKeyboardView from '../components/DismissKeyboardView';
+import axios, {AxiosError} from 'axios';
+import Config from 'react-native-config';
+import {useAppDispatch} from '../store';
+import userSlice from '../slices/user';
+import EncryptedStorage from 'react-native-encrypted-storage';
 type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 
 function SignIn({navigation}: SignInScreenProps) {
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const canGoNext = email && password;
+  // const canGoNext = email && password;
   const emailRef = useRef<TextInput | null>(null); //< > => generic
   const passwordRef = useRef<TextInput | null>(null);
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
+    if (loading) {
+      return;
+    }
     if (!email || !email.trim()) {
       //trim은 좌우 공백 없애는 함수
       return Alert.alert('알림', '이메일을 입력해주세요');
@@ -28,8 +39,35 @@ function SignIn({navigation}: SignInScreenProps) {
     if (!password || !password.trim()) {
       return Alert.alert('알림', '비밀번호를 입력해주세요');
     }
-    Alert.alert('알림', '로그인 되었습니다');
-  }, [email, password]);
+    try {
+      setLoading(true);
+      const response = await axios.post(`${Config.API_URL}/login`, {
+        email,
+        password,
+      });
+      console.log(response.data);
+      Alert.alert('알림', '로그인 되었습니다.');
+      dispatch(
+        userSlice.actions.setUser({
+          // redux userSlice 값을 바꾸는 작업 = action => action이 dispatch되면 실행 즉, reducer가 진행됨
+          name: response.data.data.name,
+          email: response.data.data.email,
+          accessToken: response.data.data.accessToken,
+        }),
+      );
+      await EncryptedStorage.setItem(
+        'refreshToken',
+        response.data.data.refreshToken,
+      );
+    } catch (error) {
+      const errorResponse = (error as AxiosError).response;
+      if (errorResponse) {
+        Alert.alert('알림', errorResponse.data.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [loading, dispatch, email, password]);
   const onChangeEmail = useCallback(text => {
     setEmail(text);
   }, []);
@@ -39,92 +77,103 @@ function SignIn({navigation}: SignInScreenProps) {
   const toSignUp = useCallback(() => {
     navigation.navigate('SignUp');
   }, [navigation]);
+  const canGoNext = email && password;
   return (
     <View>
-      <View style={styles.inputWrapper}>
-        <Image
-          style={{
-            marginTop: 30,
-            resizeMode: 'stretch',
-            width: 150,
-            height: 20,
-            marginBottom: 20,
-          }}
-          source={require('../assets/logo_red.png')}
-        />
-      </View>
-      <View style={styles.inputBoxWrapper}>
-        {/* <Text style={styles.label}>이메일</Text> */}
-        <TextInput
-          style={styles.textInput}
-          placeholder="이메일"
-          value={email}
-          onChangeText={onChangeEmail}
-          importantForAutofill="yes"
-          autoComplete="email"
-          keyboardType="email-address"
-          textContentType="emailAddress"
-          returnKeyType="next"
-          onSubmitEditing={() => {
-            passwordRef.current?.focus();
-          }}
-          blurOnSubmit={false}
-          ref={emailRef}
-        />
-      </View>
-      <View style={[styles.inputBoxWrapper, {marginBottom: 10}]}>
-        {/* <Text style={styles.label}>비밀번호</Text> */}
-        <TextInput
-          style={styles.textInput}
-          placeholder="비밀번호"
-          value={password}
-          onChangeText={onChangePassword}
-          secureTextEntry
-          importantForAutofill="yes"
-          autoComplete="password"
-          textContentType="password"
-          keyboardType="decimal-pad"
-          ref={passwordRef}
-          onSubmitEditing={onSubmit}
-        />
-      </View>
-      <View style={styles.buttonZone}>
-        <Pressable
-          onPress={onSubmit}
-          style={
-            !canGoNext
-              ? styles.loginButton
-              : StyleSheet.compose(styles.loginButton, styles.loginButtonActive)
-          }
-          disabled={!canGoNext}>
-          <Text
+      <DismissKeyboardView>
+        <View style={styles.inputWrapper}>
+          <Image
+            style={{
+              marginTop: 30,
+              resizeMode: 'stretch',
+              width: 150,
+              height: 20,
+              marginBottom: 20,
+            }}
+            source={require('../assets/logo_red.png')}
+          />
+        </View>
+        <View style={styles.inputBoxWrapper}>
+          {/* <Text style={styles.label}>이메일</Text> */}
+          <TextInput
+            style={styles.textInput}
+            placeholder="이메일"
+            value={email}
+            onChangeText={onChangeEmail}
+            importantForAutofill="yes"
+            autoComplete="email"
+            keyboardType="email-address"
+            textContentType="emailAddress"
+            returnKeyType="next"
+            onSubmitEditing={() => {
+              passwordRef.current?.focus();
+            }}
+            blurOnSubmit={false}
+            ref={emailRef}
+          />
+        </View>
+        <View style={[styles.inputBoxWrapper, {marginBottom: 10}]}>
+          {/* <Text style={styles.label}>비밀번호</Text> */}
+          <TextInput
+            style={styles.textInput}
+            placeholder="비밀번호"
+            value={password}
+            onChangeText={onChangePassword}
+            secureTextEntry
+            importantForAutofill="yes"
+            autoComplete="password"
+            textContentType="password"
+            keyboardType="decimal-pad"
+            ref={passwordRef}
+            onSubmitEditing={onSubmit}
+            clearButtonMode="while-editing"
+          />
+        </View>
+        <View style={styles.buttonZone}>
+          <Pressable
+            onPress={onSubmit}
             style={
               !canGoNext
-                ? styles.loginButtonText
+                ? styles.loginButton
                 : StyleSheet.compose(
-                    styles.loginButtonText,
-                    styles.loginButtonTextActive,
+                    styles.loginButton,
+                    styles.loginButtonActive,
                   )
-            }>
-            로그인
-          </Text>
-        </Pressable>
-        <TouchableHighlight
-          underlayColor={'#e6e6e6'}
-          onPress={toSignUp}
-          style={styles.signUpButton}>
-          <Text style={styles.signUpButtonText}>회원가입</Text>
-        </TouchableHighlight>
-        <View style={styles.zZone}>
-          <Pressable onPress={toSignUp}>
-            <Text style={styles.zZoneText}>아이디 찾기</Text>
+            }
+            disabled={!canGoNext}>
+            {loading ? (
+              <ActivityIndicator style={styles.indicator} color="white" />
+            ) : (
+              <Text
+                style={
+                  !canGoNext
+                    ? styles.loginButtonText
+                    : StyleSheet.compose(
+                        styles.loginButtonText,
+                        styles.loginButtonTextActive,
+                      )
+                }>
+                로그인
+              </Text>
+            )}
           </Pressable>
-          <Text style={{marginLeft: 5}}>/</Text>
-          <Pressable onPress={toSignUp}>
-            <Text style={styles.zZoneText}>비밀번호 찾기</Text>
-          </Pressable>
+          <TouchableHighlight
+            underlayColor={'#e6e6e6'}
+            onPress={toSignUp}
+            style={styles.signUpButton}>
+            <Text style={styles.signUpButtonText}>회원가입</Text>
+          </TouchableHighlight>
+          <View style={styles.zZone}>
+            <Pressable onPress={toSignUp}>
+              <Text style={styles.zZoneText}>아이디 찾기</Text>
+            </Pressable>
+            <Text style={{marginLeft: 5}}>/</Text>
+            <Pressable onPress={toSignUp}>
+              <Text style={styles.zZoneText}>비밀번호 찾기</Text>
+            </Pressable>
+          </View>
         </View>
-      </View>
+      </DismissKeyboardView>
       <View style={styles.socialButtonWrapper}>
         <Pressable style={styles.socialButton}>
           <Image
@@ -197,7 +246,7 @@ const styles = StyleSheet.create({
   loginButton: {
     backgroundColor: '#e6e6e6',
     paddingHorizontal: 115,
-    height: '17%',
+    height: '18%',
     borderRadius: 8,
     marginBottom: 10,
     elevation: 10,
@@ -205,23 +254,23 @@ const styles = StyleSheet.create({
   signUpButton: {
     backgroundColor: '#ffffff',
     paddingHorizontal: 108,
-    height: '17%',
+    height: '18%',
     borderRadius: 8,
     elevation: 10,
   },
   loginButtonActive: {backgroundColor: '#e27662'},
   loginButtonText: {
     color: 'white',
-    fontSize: 16,
-    bottom: '11%',
+    fontSize: 14,
+    bottom: '15%',
     fontFamily: 'NotoSansCJKkr-Black (TTF)',
   },
   loginButtonTextActive: {color: '#ffffff'},
   signUpButtonText: {
     // backgroundColor: 'black',
     color: '#e27662',
-    fontSize: 16,
-    bottom: '11%',
+    fontSize: 14,
+    bottom: '15%',
     fontFamily: 'NotoSansCJKkr-Black (TTF)',
   },
   socialButtonWrapper: {
@@ -245,6 +294,16 @@ const styles = StyleSheet.create({
   },
   zZoneText: {
     marginLeft: 5,
+  },
+  indicator: {
+    backgroundColor: 'gray',
+    paddingHorizontal: '11%',
+    // paddingVertical: 10,
+    borderRadius: 5,
+    // marginTop: '4%',
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

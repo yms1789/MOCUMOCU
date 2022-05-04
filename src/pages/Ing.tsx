@@ -4,7 +4,7 @@ import {Text, View} from 'react-native';
 function Ing() {
   return (
     <View>
-      <Text>지도</Text>
+      <Text>메인화면</Text>
     </View>
   );
 }

@@ -10,6 +10,7 @@ import {
   Image,
 } from 'react-native';
 import {RootStackParamList} from '../../App';
+import DismissKeyboardView from '../components/DismissKeyboardView';
 
 type SignInOwnerScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -43,77 +44,82 @@ function SignInOwner({navigation}: SignInOwnerScreenProps) {
   }, [navigation]);
   return (
     <View>
-      <View style={styles.inputWrapper}>
-        <Image
-          style={{
-            marginTop: 30,
-            resizeMode: 'stretch',
-            width: 150,
-            height: 20,
-            marginBottom: 20,
-          }}
-          source={require('../assets/logo_blue.png')}
-        />
-      </View>
-      <View style={styles.inputBoxWrapper}>
-        {/* <Text style={styles.label}>이메일</Text> */}
-        <TextInput
-          style={styles.textInput}
-          placeholder="이메일"
-          value={email}
-          onChangeText={onChangeEmail}
-          importantForAutofill="yes"
-          autoComplete="email"
-          keyboardType="email-address"
-          textContentType="emailAddress"
-          returnKeyType="next"
-          onSubmitEditing={() => {
-            passwordRef.current?.focus();
-          }}
-          blurOnSubmit={false}
-          ref={emailRef}
-        />
-      </View>
-      <View style={[styles.inputBoxWrapper, {marginBottom: 10}]}>
-        {/* <Text style={styles.label}>비밀번호</Text> */}
-        <TextInput
-          style={styles.textInput}
-          placeholder="비밀번호"
-          value={password}
-          onChangeText={onChangePassword}
-          secureTextEntry
-          importantForAutofill="yes"
-          autoComplete="password"
-          textContentType="password"
-          keyboardType="decimal-pad"
-          ref={passwordRef}
-          onSubmitEditing={onSubmit}
-        />
-      </View>
-      <View style={styles.buttonZone}>
-        <Pressable
-          onPress={onSubmit}
-          style={
-            !canGoNext
-              ? styles.loginButton
-              : StyleSheet.compose(styles.loginButton, styles.loginButtonActive)
-          }
-          disabled={!canGoNext}>
-          <Text style={styles.loginButtonText}>로그인</Text>
-        </Pressable>
-        <Pressable onPress={toSignUp} style={styles.signUpButton}>
-          <Text style={styles.signUpButtonText}>회원가입</Text>
-        </Pressable>
-        <View style={styles.zZone}>
-          <Pressable onPress={toSignUp}>
-            <Text style={styles.zZoneText}>아이디 찾기</Text>
-          </Pressable>
-          <Text style={{marginLeft: 5}}>/</Text>
-          <Pressable onPress={toSignUp}>
-            <Text style={styles.zZoneText}>비밀번호 찾기</Text>
-          </Pressable>
+      <DismissKeyboardView>
+        <View style={styles.inputWrapper}>
+          <Image
+            style={{
+              marginTop: 30,
+              resizeMode: 'stretch',
+              width: 150,
+              height: 20,
+              marginBottom: 20,
+            }}
+            source={require('../assets/logo_blue.png')}
+          />
         </View>
-      </View>
+        <View style={styles.inputBoxWrapper}>
+          {/* <Text style={styles.label}>이메일</Text> */}
+          <TextInput
+            style={styles.textInput}
+            placeholder="이메일"
+            value={email}
+            onChangeText={onChangeEmail}
+            importantForAutofill="yes"
+            autoComplete="email"
+            keyboardType="email-address"
+            textContentType="emailAddress"
+            returnKeyType="next"
+            onSubmitEditing={() => {
+              passwordRef.current?.focus();
+            }}
+            blurOnSubmit={false}
+            ref={emailRef}
+          />
+        </View>
+        <View style={[styles.inputBoxWrapper, {marginBottom: 10}]}>
+          {/* <Text style={styles.label}>비밀번호</Text> */}
+          <TextInput
+            style={styles.textInput}
+            placeholder="비밀번호"
+            value={password}
+            onChangeText={onChangePassword}
+            secureTextEntry
+            importantForAutofill="yes"
+            autoComplete="password"
+            textContentType="password"
+            keyboardType="decimal-pad"
+            ref={passwordRef}
+            onSubmitEditing={onSubmit}
+          />
+        </View>
+        <View style={styles.buttonZone}>
+          <Pressable
+            onPress={onSubmit}
+            style={
+              !canGoNext
+                ? styles.loginButton
+                : StyleSheet.compose(
+                    styles.loginButton,
+                    styles.loginButtonActive,
+                  )
+            }
+            disabled={!canGoNext}>
+            <Text style={styles.loginButtonText}>로그인</Text>
+          </Pressable>
+          <Pressable onPress={toSignUp} style={styles.signUpButton}>
+            <Text style={styles.signUpButtonText}>회원가입</Text>
+          </Pressable>
+          <View style={styles.zZone}>
+            <Pressable onPress={toSignUp}>
+              <Text style={styles.zZoneText}>아이디 찾기</Text>
+            </Pressable>
+            <Text style={{marginLeft: 5}}>/</Text>
+            <Pressable onPress={toSignUp}>
+              <Text style={styles.zZoneText}>비밀번호 찾기</Text>
+            </Pressable>
+          </View>
+        </View>
+      </DismissKeyboardView>
       <View style={styles.socialButtonWrapper}>
         <Pressable style={styles.socialButton}>
           <Image
@@ -184,9 +190,9 @@ const styles = StyleSheet.create({
     // marginBottom: '10%',
   },
   loginButton: {
-    backgroundColor: '#cbcbcb',
+    backgroundColor: '#e6e6e6',
     paddingHorizontal: 115,
-    height: '17%',
+    height: '18%',
     borderRadius: 8,
     marginBottom: 10,
     elevation: 10,
@@ -194,7 +200,7 @@ const styles = StyleSheet.create({
   signUpButton: {
     backgroundColor: '#ffffff',
     paddingHorizontal: 108,
-    height: '17%',
+    height: '18%',
     borderRadius: 8,
     elevation: 10,
   },
@@ -202,15 +208,15 @@ const styles = StyleSheet.create({
   signUpButtonText: {
     // backgroundColor: 'black',
     color: '#59A0DD',
-    fontSize: 16,
+    fontSize: 14,
     bottom: '15%',
-    fontFamily: 'NotoSansCJKkr-Bold (TTF)',
+    fontFamily: 'NotoSansCJKkr-Black (TTF)',
   },
   loginButtonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 14,
     bottom: '15%',
-    fontFamily: 'NotoSansCJKkr-Bold (TTF)',
+    fontFamily: 'NotoSansCJKkr-Black (TTF)',
   },
   socialButtonWrapper: {
     marginTop: 20,
