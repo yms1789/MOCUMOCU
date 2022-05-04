@@ -126,6 +126,9 @@ function SignUp({navigation}: SignUpScreenProps) {
           }}>
           <SafeAreaView style={{paddingTop: StatusBar.currentHeight}}>
             <ScrollView style={styles.scrollView} fadingEdgeLength={10}>
+              <Text style={styles.privacyAgreeTitle}>
+                개인정보 수집 및 이용 동의
+              </Text>
               <Text style={styles.privacyAgreeText}>
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                 Voluptatum dolor, perferendis beatae repellendus architecto illo
@@ -167,11 +170,13 @@ function SignUp({navigation}: SignUpScreenProps) {
             onPress={() => {
               setModalVisible(!modalVisible);
             }}>
-            <Text style={styles.modalButtonText}>OK</Text>
+            <Text style={styles.modalButtonText}>모두 동의하고 다음으로</Text>
           </Pressable>
         </Modal>
         <View>
-          <Text style={styles.welcomeText}>회원님, {'\n'}환영합니다!</Text>
+          <Text style={[styles.welcomeText, {marginBottom: 18}]}>
+            회원님, {'\n'}환영합니다!
+          </Text>
         </View>
         <View style={styles.inputWrapper}>
           <TextInput
@@ -304,7 +309,7 @@ function SignUp({navigation}: SignUpScreenProps) {
             {loading ? (
               <ActivityIndicator style={styles.indicator} color="white" />
             ) : (
-              <Text style={styles.signUpButtonText}>회원가입</Text>
+              <Text style={styles.signUpButtonText}>다음</Text>
             )}
           </TouchableHighlight>
         </View>
@@ -322,9 +327,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     elevation: 10,
     backgroundColor: 'white',
-    paddingVertical: 8,
+    paddingVertical: 6,
     paddingHorizontal: 20,
-    width: 270,
+    width: 280,
+    fontWeight: 'bold',
     // fontFamily: 'NotoSansCJKkr-Black (TTF)',
   },
   inputWrapper: {
@@ -337,17 +343,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonZone: {
+    // position: 'absolute',
     alignItems: 'center',
   },
   signUpButton: {
     backgroundColor: 'gray',
-    paddingHorizontal: '30%',
+    paddingHorizontal: '34%',
     // paddingVertical: 10,
     borderRadius: 5,
     marginTop: '4%',
   },
   signUpButtonActive: {
-    backgroundColor: '#e27662',
+    backgroundColor: '#414FFD',
   },
   signUpButtonText: {
     color: 'white',
@@ -367,7 +374,7 @@ const styles = StyleSheet.create({
     height: 100,
   },
   modalButton: {
-    backgroundColor: 'white',
+    backgroundColor: '#414FFD',
     bottom: '16%',
     marginHorizontal: '10%',
     borderRadius: 10,
@@ -378,11 +385,18 @@ const styles = StyleSheet.create({
     // position: 'relative',
   },
   modalButtonText: {
-    color: 'black',
+    color: 'white',
     justifyContent: 'center',
     fontSize: 16,
     bottom: '1%',
     fontFamily: 'NotoSansCJKkr-Black (TTF)',
+  },
+  privacyAgreeTitle: {
+    fontSize: 24,
+    textAlign: 'center',
+    marginVertical: 10,
+    fontFamily: 'GmarketSansTTFBold',
+    color: '#414FFD',
   },
   privacyAgreeText: {
     marginHorizontal: 40,
@@ -390,7 +404,7 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: 24,
     fontFamily: 'GmarketSansTTFBold',
-    color: '#e27662',
+    color: '#414FFD',
     marginTop: '10%',
     marginLeft: '10%',
     lineHeight: 30,

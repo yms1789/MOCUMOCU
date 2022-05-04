@@ -47,6 +47,7 @@ function SignIn({navigation}: SignInScreenProps) {
       });
       console.log(response.data);
       Alert.alert('알림', '로그인 되었습니다.');
+      setLoading(false);
       dispatch(
         userSlice.actions.setUser({
           // redux userSlice 값을 바꾸는 작업 = action => action이 dispatch되면 실행 즉, reducer가 진행됨
@@ -59,13 +60,13 @@ function SignIn({navigation}: SignInScreenProps) {
         'refreshToken',
         response.data.data.refreshToken,
       );
+      console.log(EncryptedStorage.getItem('refreshToken'));
     } catch (error) {
+      setLoading(false);
       const errorResponse = (error as AxiosError).response;
       if (errorResponse) {
         Alert.alert('알림', errorResponse.data.message);
       }
-    } finally {
-      setLoading(false);
     }
   }, [loading, dispatch, email, password]);
   const onChangeEmail = useCallback(text => {
@@ -86,11 +87,11 @@ function SignIn({navigation}: SignInScreenProps) {
             style={{
               marginTop: 30,
               resizeMode: 'stretch',
-              width: 150,
-              height: 20,
-              marginBottom: 20,
+              width: 100,
+              height: 50,
+              marginBottom: 10,
             }}
-            source={require('../assets/logo_red.png')}
+            source={require('../assets/logo_blue.png')}
           />
         </View>
         <View style={styles.inputBoxWrapper}>
@@ -123,7 +124,7 @@ function SignIn({navigation}: SignInScreenProps) {
             importantForAutofill="yes"
             autoComplete="password"
             textContentType="password"
-            keyboardType="decimal-pad"
+            keyboardType="default"
             ref={passwordRef}
             onSubmitEditing={onSubmit}
             clearButtonMode="while-editing"
@@ -258,7 +259,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     elevation: 10,
   },
-  loginButtonActive: {backgroundColor: '#e27662'},
+  loginButtonActive: {backgroundColor: '#414FFD'},
   loginButtonText: {
     color: 'white',
     fontSize: 14,
@@ -268,13 +269,13 @@ const styles = StyleSheet.create({
   loginButtonTextActive: {color: '#ffffff'},
   signUpButtonText: {
     // backgroundColor: 'black',
-    color: '#e27662',
+    color: '#414FFD',
     fontSize: 14,
     bottom: '15%',
     fontFamily: 'NotoSansCJKkr-Black (TTF)',
   },
   socialButtonWrapper: {
-    marginTop: 20,
+    marginTop: 90,
     flexDirection: 'row',
     justifyContent: 'center',
   },
@@ -294,10 +295,11 @@ const styles = StyleSheet.create({
   },
   zZoneText: {
     marginLeft: 5,
+    fontSize: 12,
   },
   indicator: {
-    backgroundColor: 'gray',
-    paddingHorizontal: '11%',
+    // backgroundColor: 'gray',
+    paddingHorizontal: '7%',
     // paddingVertical: 10,
     borderRadius: 5,
     // marginTop: '4%',

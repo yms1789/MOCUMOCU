@@ -1,9 +1,17 @@
 import React, {useCallback} from 'react';
-import {ImageBackground, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  ImageBackground,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
 const image = require('../assets/initScreen.png');
-
+const logo_kor = require('../assets/logo_kor.png');
+const logo_eng = require('../assets/logo_eng.png');
 type InitScreenProps = NativeStackScreenProps<RootStackParamList, 'InitScreen'>;
 
 function InitScreen({navigation}: InitScreenProps) {
@@ -16,17 +24,9 @@ function InitScreen({navigation}: InitScreenProps) {
   return (
     <View>
       <ImageBackground style={styles.background} source={image}>
-        <View style={styles.textWrapper}>
-          <Text style={styles.initText}>
-            <Text style={(styles.initText, {color: '#ff9d8b'})}>모</Text>
-            바일&nbsp;
-            <Text style={(styles.initText, {color: '#ff9d8b'})}>쿠</Text>폰
-          </Text>
-          <Text style={styles.initText}>
-            <Text style={(styles.initText, {color: '#ff9d8b'})}>모</Text>
-            두의&nbsp;
-            <Text style={(styles.initText, {color: '#ff9d8b'})}>쿠</Text>폰
-          </Text>
+        <View style={styles.logoWrapper}>
+          <Image style={styles.logoImage} source={logo_kor} />
+          <Image style={styles.logoImageEng} source={logo_eng} />
         </View>
         <View style={styles.startZone}>
           <Pressable
@@ -37,12 +37,11 @@ function InitScreen({navigation}: InitScreenProps) {
               styles.startButton,
               {marginBottom: '2%'},
             ]}
-            onPress={toSignInOwner}>
-            <Text style={[styles.startButtonText, {color: '#59a0dd'}]}>
-              점주로 시작하기
+            onPress={toSignInUser}>
+            <Text style={[styles.startButtonText, {color: '#414FFD'}]}>
+              회원으로 시작하기
             </Text>
           </Pressable>
-
           <Pressable
             style={({pressed}) => [
               {
@@ -51,9 +50,9 @@ function InitScreen({navigation}: InitScreenProps) {
               styles.startButton,
               {marginBottom: '2%'},
             ]}
-            onPress={toSignInUser}>
-            <Text style={[styles.startButtonText, {color: '#e27662'}]}>
-              회원으로 시작하기
+            onPress={toSignInOwner}>
+            <Text style={[styles.startButtonText, {color: '#363636'}]}>
+              점주로 시작하기
             </Text>
           </Pressable>
         </View>
@@ -73,12 +72,25 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowRadius: 20,
   },
-  textWrapper: {
-    marginTop: 84,
-    marginLeft: 48,
+  logoWrapper: {
+    marginTop: 50,
+    marginLeft: 30,
+  },
+  logoImage: {
+    // position: 'relative',
+    // transform: [{scale: 0.3}],
+    // marginRight: 100,
+    width: 175,
+    height: 82.18,
+    resizeMode: 'stretch',
+  },
+  logoImageEng: {
+    width: 100,
+    height: 50,
+    resizeMode: 'stretch',
   },
   startZone: {
-    marginTop: '65%',
+    marginTop: '60%',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -87,9 +99,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // backgroundColor: 'white',
     width: '77%',
-    height: '23%',
+    height: '22%',
     borderRadius: 8,
     elevation: 5,
+    opacity: 0.9,
   },
   startButtonText: {
     fontFamily: 'NotoSansCJKkr-Black (TTF)',
