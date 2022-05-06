@@ -114,6 +114,7 @@ function SignUp({navigation}: SignUpScreenProps) {
   const canGoNext =
     email && name && password && checkPassword && telephoneNumber;
   const [modalVisible, setModalVisible] = useState<any>(true);
+  const [scrollToBottom, setScrollToBottom] = useState<any>(false);
   return (
     <DismissKeyboardView>
       <View>
@@ -125,7 +126,21 @@ function SignUp({navigation}: SignUpScreenProps) {
             setModalVisible(!modalVisible);
           }}>
           <SafeAreaView style={{paddingTop: StatusBar.currentHeight}}>
-            <ScrollView style={styles.scrollView} fadingEdgeLength={10}>
+            <ScrollView
+              style={styles.scrollView}
+              fadingEdgeLength={10}
+              endFillColor="black"
+              onScroll={e => {
+                let paddingToBottom = 1;
+                paddingToBottom += e.nativeEvent.layoutMeasurement.height;
+                // console.log(Math.floor(paddingToBottom) + "-" + Math.floor(e.nativeEvent.contentOffset.y) + "-" + Math.floor(e.nativeEvent.contentSize.height));
+                if (
+                  e.nativeEvent.contentOffset.y + paddingToBottom >=
+                  e.nativeEvent.contentSize.height
+                ) {
+                  setScrollToBottom(true);
+                }
+              }}>
               <Text style={styles.privacyAgreeTitle}>
                 개인정보 수집 및 이용 동의
               </Text>
@@ -156,21 +171,59 @@ function SignUp({navigation}: SignUpScreenProps) {
                 Officia, reiciendis? Voluptate sequi ex dolorem doloribus quas?
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                 Voluptatum dolor, perferendis beatae repellendus architecto illo
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                Voluptatum dolor, perferendis beatae repellendus architecto illo
                 consequuntur amet possimus ullam velit dignissimos obcaecati!
                 Officia, reiciendis? Voluptate sequi ex dolorem doloribus quas?
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                 Voluptatum dolor, perferendis beatae repellendus architecto illo
                 consequuntur amet possimus ullam velit dignissimos obcaecati!
                 Officia, reiciendis? Voluptate sequi ex dolorem doloribus quas?
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                Voluptatum dolor, perferendis beatae repellendus architecto illo
+                consequuntur amet possimus ullam velit dignissimos obcaecati!
+                Officia, reiciendis? Voluptate sequi ex dolorem doloribus quas?
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                Voluptatum dolor, perferendis beatae repellendus architecto illo
+                consequuntur amet possimus ullam velit dignissimos obcaecati!
+                Officia, reiciendis? Voluptate sequi ex dolorem doloribus quas?
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                Voluptatum dolor, perferendis beatae repellendus architecto illo
+                consequuntur amet possimus ullam velit dignissimos obcaecati!
+                Officia, reiciendis? Voluptate sequi ex dolorem doloribus quas?
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                Voluptatum dolor, perferendis beatae repellendus architecto illo
+                consequuntur amet possimus ullam velit dignissimos obcaecati!
+                Officia, reiciendis? Voluptate sequi ex dolorem doloribus quas?
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                Voluptatum dolor, perferendis beatae repellendus architecto illo
               </Text>
             </ScrollView>
           </SafeAreaView>
           <Pressable
-            style={styles.modalButton}
+            style={
+              !scrollToBottom
+                ? styles.modalButton
+                : StyleSheet.compose(
+                    styles.modalButton,
+                    styles.modalButtonActive,
+                  )
+            }
             onPress={() => {
               setModalVisible(!modalVisible);
-            }}>
-            <Text style={styles.modalButtonText}>모두 동의하고 다음으로</Text>
+            }}
+            disabled={!scrollToBottom}>
+            <Text
+              style={
+                !scrollToBottom
+                  ? styles.modalButtonText
+                  : StyleSheet.compose(
+                      styles.modalButtonText,
+                      styles.modalButtonTextActive,
+                    )
+              }>
+              모두 동의하고 다음으로
+            </Text>
           </Pressable>
         </Modal>
         <View>
@@ -374,7 +427,7 @@ const styles = StyleSheet.create({
     height: 100,
   },
   modalButton: {
-    backgroundColor: '#414FFD',
+    backgroundColor: '#ffffff',
     bottom: '16%',
     marginHorizontal: '10%',
     borderRadius: 10,
@@ -384,13 +437,15 @@ const styles = StyleSheet.create({
     elevation: 10,
     // position: 'relative',
   },
+  modalButtonActive: {backgroundColor: '#414FFD'},
   modalButtonText: {
-    color: 'white',
+    color: 'gray',
     justifyContent: 'center',
     fontSize: 16,
     bottom: '1%',
     fontFamily: 'NotoSansCJKkr-Black (TTF)',
   },
+  modalButtonTextActive: {color: 'white'},
   privacyAgreeTitle: {
     fontSize: 24,
     textAlign: 'center',
@@ -400,6 +455,7 @@ const styles = StyleSheet.create({
   },
   privacyAgreeText: {
     marginHorizontal: 40,
+    marginBottom: 100,
   },
   welcomeText: {
     fontSize: 24,
